@@ -45,7 +45,7 @@ const chapters = [
     description:
       'Record the species that was planted, the actual planting date, and a concise note for follow-up. Add clear site photos so the record can be reviewed later.',
     note: 'Select species · Date · Document',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/download-rbCRLazJSsCPg1S09vwuA9keYvjn6J.png',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cefccceb540eca06bd82653025ab897c-07oV4IOSRzJwAEpltr9Chr73WGiDhW.jpg',
     Icon: Sprout,
   },
   {
@@ -154,7 +154,6 @@ export default function OruThaiStory() {
           />
           <div className="hero-shade" aria-hidden="true" />
           <div className="hero-content">
-            <p className="eyebrow hero-eyebrow"><span className="eyebrow-dot" /> NSS MBCCET · TREE PLANTATION &amp; RECORDING</p>
             <h1 id="hero-title" lang="ml">ഒരു തൈ</h1>
             <p className="hero-title-english">Plant with purpose.<br /><em>Document with care.</em></p>
             <p className="hero-description">An NSS MBCCET initiative with NRPF. Every planting is mapped, identified, photographed, and submitted for verification through TreeTag.</p>
