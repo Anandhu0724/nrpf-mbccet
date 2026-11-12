@@ -8,7 +8,6 @@ import {
   ArrowUpRight,
   Check,
   MapPin,
-  Navigation,
   ShieldCheck,
   Sprout,
 } from 'lucide-react'
@@ -125,7 +124,6 @@ export default function OruThaiStory() {
   }, [])
 
   const current = chapters[activeChapter]
-  const CurrentIcon = current.Icon
 
   return (
     <div className={`story-page${motionReady ? ' is-ready' : ''}`}>
@@ -187,19 +185,7 @@ export default function OruThaiStory() {
             <div className="chapter-visual-column">
               <div className={`chapter-visual chapter-visual--${current.id}`} aria-live="polite" aria-label={`Chapter ${current.number}: ${current.eyebrow}`}>
                 <img className="chapter-photo" src={current.image} alt="" aria-hidden="true" />
-                <div className="visual-grain" aria-hidden="true" />
                 <div className="visual-topline"><span>PROGRAMME RECORD</span><span>{current.number} / 03</span></div>
-                <div className="visual-art" aria-hidden="true">
-                  <div className="visual-orbit visual-orbit--one" />
-                  <div className="visual-orbit visual-orbit--two" />
-                  <div className="visual-ground" />
-                  <div className="visual-mark">
-                    <CurrentIcon strokeWidth={1.35} />
-                  </div>
-                  {current.id === 'ground' && <div className="map-coordinate"><Navigation aria-hidden="true" /><span>PLANTING SITE<br />LOCATION PIN</span></div>}
-                  {current.id === 'growth' && <div className="growth-stem"><span /><span /><span /></div>}
-                  {current.id === 'impact' && <div className="canopy-dots"><i /><i /><i /><i /><i /><i /></div>}
-                </div>
                 <div className="visual-caption"><span className="caption-number">{current.number}</span><div><span>PROGRAMME STAGE</span><strong>{current.eyebrow}</strong></div><ArrowRight aria-hidden="true" /></div>
               </div>
               <div className="visual-progress" aria-label={`Showing chapter ${current.number} of 03`}>
