@@ -35,6 +35,7 @@ const chapters = [
     description:
       'Confirm that the site is approved for planting. Use the TreeTag map and the current-location control to place the record at the actual planting point—not a nearby road or an approximate address.',
     note: 'Confirm permission · Pin the site',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/f3fde1e6be0881100d8f14f705285552-hN6O1yOcKYRVu2LGZMCZUkmWPxK5xm.jpg',
     Icon: MapPin,
   },
   {
@@ -45,6 +46,7 @@ const chapters = [
     description:
       'Record the species that was planted, the actual planting date, and a concise note for follow-up. Add clear site photos so the record can be reviewed later.',
     note: 'Select species · Date · Document',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/download-rbCRLazJSsCPg1S09vwuA9keYvjn6J.png',
     Icon: Sprout,
   },
   {
@@ -55,6 +57,7 @@ const chapters = [
     description:
       'Submit the complete entry for review and keep it pending until your NSS unit confirms it. Continue to care for the sapling and keep future updates factual.',
     note: 'Submit · Await review · Care',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/63f419d6790d2e7b3f7a92d9590d9ccf-fHLQnyqOEuPwa89OcD7PT0nKg98R92.jpg',
     Icon: ShieldCheck,
   },
 ]
@@ -94,24 +97,30 @@ export default function OruThaiStory() {
     )
     revealItems.forEach((item) => revealObserver.observe(item))
 
-    const chapterObserver = new IntersectionObserver(
-      (entries) => {
-        const current = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (current) {
-          const index = chapters.findIndex((chapter) => chapter.id === current.target.id)
-          if (index >= 0) setActiveChapter(index)
-        }
-      },
-      { threshold: [0.2, 0.45, 0.7], rootMargin: '-18% 0px -24% 0px' },
-    )
-    document.querySelectorAll<HTMLElement>('[data-story-chapter]').forEach((chapter) => chapterObserver.observe(chapter))
+    let activeChapterFrame = 0
+    const updateActiveChapter = () => {
+      if (activeChapterFrame) return
+      activeChapterFrame = window.requestAnimationFrame(() => {
+        activeChapterFrame = 0
+        const readingLine = window.innerHeight * 0.43
+        const nextChapter = chapters.reduce((activeIndex, chapter, index) => {
+          const element = document.getElementById(chapter.id)
+          return element && element.getBoundingClientRect().top <= readingLine ? index : activeIndex
+        }, 0)
+        setActiveChapter(nextChapter)
+      })
+    }
+
+    window.addEventListener('scroll', updateActiveChapter, { passive: true })
+    window.addEventListener('resize', updateActiveChapter)
+    updateActiveChapter()
     setMotionReady(true)
 
     return () => {
       revealObserver.disconnect()
-      chapterObserver.disconnect()
+      window.removeEventListener('scroll', updateActiveChapter)
+      window.removeEventListener('resize', updateActiveChapter)
+      if (activeChapterFrame) window.cancelAnimationFrame(activeChapterFrame)
     }
   }, [])
 
@@ -177,6 +186,7 @@ export default function OruThaiStory() {
           <div className="chapter-layout">
             <div className="chapter-visual-column">
               <div className={`chapter-visual chapter-visual--${current.id}`} aria-live="polite" aria-label={`Chapter ${current.number}: ${current.eyebrow}`}>
+                <img className="chapter-photo" src={current.image} alt="" aria-hidden="true" />
                 <div className="visual-grain" aria-hidden="true" />
                 <div className="visual-topline"><span>PROGRAMME RECORD</span><span>{current.number} / 03</span></div>
                 <div className="visual-art" aria-hidden="true">
